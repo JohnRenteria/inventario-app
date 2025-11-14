@@ -14,7 +14,7 @@ root.render(
         <ThemeProvider>
             <ModalProvider>
                 <AuthProvider>
-                    <BrowserRouter>
+                    <BrowserRouter basename="/inventario-app">
                         <App />
                     </BrowserRouter>
                 </AuthProvider>
