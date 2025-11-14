@@ -1,23 +1,32 @@
-import logo from './logo.svg';
+// c:\Users\user\OneDrive - Corporacion Universitaria Remington\Desktop\Visual Code\Inventario Al Aire Rooftop\inventario-app\src\App.js
+
 import './App.css';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Login from './firesbase/Login';
+import Register from './firesbase/Register';
+import Homepage from './pages/Homepage';
+import ProtectedRoute from './components/ProtectedRoute';
+import InventoryTable from './components/InventoryTable';
+import Reportes from './pages/Reportes';
+import Configuracion from './pages/Configuracion';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route 
+          path="/homepage" 
+          element={<ProtectedRoute><Homepage /></ProtectedRoute>}
         >
-          Learn React
-        </a>
-      </header>
+          {/* Rutas anidadas que se renderizarán dentro del <Outlet /> de Homepage */}
+          <Route index element={<InventoryTable />} />
+          <Route path="reportes" element={<Reportes />} />
+          <Route path="configuracion" element={<Configuracion />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

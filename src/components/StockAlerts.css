@@ -1,0 +1,47 @@
+.stock-alerts-container {
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.stock-alerts-container h4 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.stock-alerts-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.stock-alerts-container th,
+.stock-alerts-container td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.stock-alerts-container th {
+  font-weight: 600;
+}
+
+.status-low {
+  background-color: rgba(255, 0, 0, 0.08);
+  color: #c00;
+  font-weight: 500;
+}
+
+.status-high {
+  background-color: rgba(0, 128, 0, 0.08);
+  color: #080;
+  font-weight: 500;
+}
+
+.report-options {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}

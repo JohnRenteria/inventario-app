@@ -1,0 +1,52 @@
+.edit-product-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-top: 1rem; /* Espacio entre el título del modal y el formulario */
+}
+
+.edit-product-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.edit-product-form .form-group:first-child {
+  grid-column: 1 / -1; /* El primer grupo (Nombre) ocupa todo el ancho */
+}
+
+.edit-product-form label {
+  font-weight: 500;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.edit-product-form input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  width: 100%;
+  box-sizing: border-box; /* Ensure padding is included in width */
+}
+
+.edit-product-form input:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+.edit-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.edit-modal-actions { /* New styles for the button container */
+  grid-column: 1 / -1; /* Buttons take full width */
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem; /* Space above buttons */
+}

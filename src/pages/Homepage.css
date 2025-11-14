@@ -1,0 +1,366 @@
+.homepage-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f4f7f6;
+}
+
+.homepage-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #282c34;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.homepage-header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.homepage-nav {
+  display: flex;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  justify-content: center; /* Centra los elementos del menú */
+  gap: 3rem; /* Aumenta la separación entre los elementos */
+}
+
+.nav-link {
+  padding: 1rem 0.5rem;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  border-bottom: 3px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.nav-link:hover {
+  color: #007aff;
+}
+
+.nav-link.active {
+  color: #007aff;
+  border-bottom-color: #007aff;
+}
+
+.header-user-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Espacio entre el nombre y el botón */
+}
+
+.header-user-actions p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.notification-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.logout-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #61dafb;
+  color: #282c34;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #21a1f1;
+}
+
+.homepage-container main {
+  padding: 2rem;
+}
+
+.inventory-table-container {
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+.inventory-table-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.inventory-table-container th,
+.inventory-table-container td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle; /* Centra verticalmente el contenido de todas las celdas */
+}
+
+.inventory-table-container th {
+  background-color: #f2f2f2;
+}
+
+.inventory-table-container tr:last-child td {
+  border-bottom: none;
+}
+
+.actions-cell {
+  /* No se necesita display: flex, vertical-align: middle se encargará */
+}
+
+.action-button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.action-button + .action-button {
+  margin-left: 0.5rem; /* Añadimos un margen para separar los botones */
+}
+
+.edit-button:hover {
+  background-color: #e0e0e0;
+}
+
+.delete-button:hover {
+  background-color: #ffdddd;
+}
+
+.editing-row {
+  background-color: #fffbe6 !important; /* Un color suave para indicar edición */
+}
+
+.editing-row input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #007aff;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.editing-row input[type="number"] {
+  width: 80px; /* Un ancho más pequeño para los números */
+}
+
+.save-inline-button:hover {
+  color: #28a745;
+}
+
+.cancel-inline-button:hover {
+  color: #dc3545;
+}
+
+
+.timestamp-cell {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 4px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.pagination button:hover:not(:disabled) {
+  background-color: #f0f0f0;
+}
+
+.pagination button:disabled {
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.third-section-container {
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem;
+}
+
+.third-section-container h3 {
+  margin-top: 0;
+  text-align: center;
+  color: #333;
+}
+
+.review-button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+  gap: 1rem;
+}
+
+.review-button {
+  padding: 0.6rem 1.5rem;
+  background-color: #28a745; /* Green color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.review-button:hover {
+  background-color: #218838;
+}
+
+.save-button {
+  padding: 0.6rem 1.5rem;
+  background-color: #007aff; /* Blue color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+.save-button:hover {
+  background-color: #005ecb;
+}
+
+.search-container {
+  margin-bottom: 1.5rem;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  outline-color: #007aff;
+}
+
+.report-container {
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.report-container h4 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.report-options {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.report-button {
+  padding: 0.6rem 1.5rem;
+  border: 1px solid #ccc;
+  background-color: #f0f2f5;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.report-button:hover {
+  background-color: #e0e0e0;
+}
+
+.chart-container {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+  color: #888;
+  background-color: #fafafa;
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Estilo para los días con reportes guardados en el calendario */
+.react-datepicker__day--highlighted {
+  background-color: #007aff;
+  color: white;
+  border-radius: 50%;
+}
+
+/* --- ESTILOS RESPONSIVOS --- */
+
+@media (max-width: 768px) {
+  .homepage-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .homepage-nav {
+    gap: 1rem;
+    justify-content: space-around;
+  }
+
+  .nav-link {
+    padding: 0.8rem 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  .homepage-container main {
+    padding: 1rem;
+  }
+
+  .config-section,
+  .inventory-table-container,
+  .movement-form-container,
+  .add-product-form-container,
+  .report-container {
+    padding: 1rem;
+  }
+
+  /* Hacer que las tablas sean desplazables horizontalmente */
+  .inventory-table-container,
+  .user-table-container {
+    overflow-x: auto;
+  }
+
+  .movement-form, .add-product-form {
+    grid-template-columns: 1fr; /* Apilar los campos en una sola columna */
+  }
+}

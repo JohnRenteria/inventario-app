@@ -1,0 +1,66 @@
+.add-product-form-container {
+  background-color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem;
+}
+
+.add-product-form-container h3 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #333;
+}
+
+.add-product-form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  align-items: center;
+}
+
+.add-product-form input[name="nombre"] {
+  grid-column: 1 / -1; /* El campo de nombre ocupa toda la primera fila */
+}
+
+.add-product-form input,
+.add-product-form button {
+  padding: 0.75rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.add-product-form button {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  grid-column: 1 / -1; /* El botón ocupa todo el ancho */
+}
+
+.add-product-form button:hover {
+  background-color: #218838;
+}
+
+.add-product-form button:disabled {
+  background-color: #a0a0a0;
+  cursor: not-allowed;
+}
+
+.error-message {
+  color: #d93025;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+
+.success-message {
+  color: #28a745;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 0;
+}

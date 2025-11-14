@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f2f5;
+  margin: 0;
+}
+
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.login-form {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px; /* Aumentamos el ancho máximo para las dos columnas */
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.login-form h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #1c1c1e;
+  font-weight: 600;
+}
+
+.form-subtitle {
+  margin-bottom: 2rem;
+  color: #6a6a6a;
+  font-size: 0.9rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #333;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem; /* Aseguramos que el tamaño de fuente sea consistente */
+  transition: border-color 0.3s, box-shadow 0.3s;
+  -webkit-appearance: none; /* Quitamos la apariencia por defecto en Webkit */
+  -moz-appearance: none; /* Quitamos la apariencia por defecto en Mozilla */
+  appearance: none; /* Quitamos la apariencia por defecto */
+  background-color: #fff; /* Fondo blanco */
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #007aff;
+  box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+.login-button {
+  width: 100%;
+  padding: 0.85rem;
+  border: none;
+  background-color: #007aff;
+  color: white;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-button:hover {
+  background-color: #005ecb;
+}
+
+/* Estilos para el grid de registro */
+.register-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Crea dos columnas de igual tamaño */
+  gap: 0 1.5rem; /* Espacio entre columnas */
+}
+
+/* Hacemos que el campo de correo ocupe las dos columnas si es necesario */
+/* .register-fields-grid .input-group:nth-child(3) {
+  grid-column: 1 / -1;
+} */
+
+.form-buttons-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.form-buttons-container .login-button,
+.form-buttons-container .back-button {
+  flex: 1; /* Hacemos que ambos botones compartan el espacio */
+}
+
+.back-button {
+  padding: 0.85rem;
+  border: 1px solid #dcdcdc;
+  background-color: #f0f2f5;
+  color: #333;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* --- ESTILOS PARA TEMA OSCURO --- */
+body.dark {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+body.dark .login-form,
+body.dark .config-section,
+body.dark .inventory-table-container,
+body.dark .movement-form-container,
+body.dark .add-product-form-container,
+body.dark .report-container,
+body.dark .modal-content {
+  background-color: #1e1e1e;
+  color: #e0e0e0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+body.dark .login-form h2,
+body.dark .config-section h3,
+body.dark .modal-header h4 {
+  color: #ffffff;
+}

@@ -1,0 +1,18 @@
+.save-report-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.save-report-body label {
+  font-weight: 500;
+  color: #333;
+}
+
+.save-report-body input[type="date"] {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
