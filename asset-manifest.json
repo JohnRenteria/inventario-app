@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/inventario-app/static/css/main.884724f5.css",
+    "main.js": "/inventario-app/static/js/main.643d3c26.js",
+    "static/js/453.6bd0c872.chunk.js": "/inventario-app/static/js/453.6bd0c872.chunk.js",
+    "index.html": "/inventario-app/index.html",
+    "main.884724f5.css.map": "/inventario-app/static/css/main.884724f5.css.map",
+    "main.643d3c26.js.map": "/inventario-app/static/js/main.643d3c26.js.map",
+    "453.6bd0c872.chunk.js.map": "/inventario-app/static/js/453.6bd0c872.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.884724f5.css",
+    "static/js/main.643d3c26.js"
+  ]
+}
