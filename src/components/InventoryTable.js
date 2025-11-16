@@ -64,7 +64,17 @@ const InventoryTable = () => {
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     const isNumberField = name !== 'nombre';
-    setEditFormData({ ...editFormData, [name]: isNumberField ? Number(value) : value });
+    const newValue = isNumberField ? Number(value) : value;
+
+    setEditFormData(prevData => {
+      const updatedData = { ...prevData, [name]: newValue };
+
+      // Recalcular el total en tiempo real si se cambia bodega o barra
+      if (name === 'bodega' || name === 'barra') {
+        updatedData.total = (name === 'bodega' ? newValue : prevData.bodega) + (name === 'barra' ? newValue : prevData.barra);
+      }
+      return updatedData;
+    });
   };
 
   const handleDelete = async (id) => {
@@ -196,7 +206,7 @@ const InventoryTable = () => {
                     <td>{item.ingreso || 0}</td>
                     <td>{item.salida || 0}</td>
                     <td><input type="number" name="barra" value={editFormData.barra} onChange={handleFormChange} /></td>
-                    <td>{item.total || 0}</td>
+                    <td>{editFormData.total || 0}</td>
                     <td><input type="number" name="stockMin" value={editFormData.stockMin} onChange={handleFormChange} /></td>
                     <td><input type="number" name="stockMax" value={editFormData.stockMax} onChange={handleFormChange} /></td>
                     <td>...</td>

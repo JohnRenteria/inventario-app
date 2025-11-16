@@ -121,32 +121,30 @@ const MovementForm = ({ disabled }) => {
 
       await updateDoc(productRef, updates);
 
-      // --- INICIO DE LA AGREGACIÓN DE DATOS ---
-      if (movementType.includes('Salida') || movementType === 'Bodega a Barra') {
+      // Si es una salida, registrarla en el historial y en el reporte de ventas diario.
+      if (isSalida) {
         const today = new Date();
         const dateString = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`; // YYYY-MM-DD
         const dailyReportRef = doc(db, 'daily_sales', dateString);
 
-        // Usamos una transacción para actualizar el reporte diario de forma segura
-        await runTransaction(db, async (transaction) => {
-          const dailyReportDoc = await transaction.get(dailyReportRef);
-          const fieldPath = `products.${selectedProduct.id}`; // Usamos el ID del producto para evitar problemas con nombres
-          
-          if (!dailyReportDoc.exists()) {
-            transaction.set(dailyReportRef, { date: new Date(dateString), products: { [selectedProduct.id]: { name: selectedProduct.nombre, quantity: qty } } });
-          } else {
-            transaction.update(dailyReportRef, { [`${fieldPath}.quantity`]: increment(qty), [`${fieldPath}.name`]: selectedProduct.nombre });
-          }
-        });
-      }
-      // Registrar el movimiento en el historial para los reportes
-      if (isSalida) {
+        // Registrar movimiento en el historial
         await addDoc(collection(db, 'inventory_movements'), {
           productId: selectedProduct.id,
           productName: selectedProduct.nombre,
           type: movementType,
           quantity: qty,
           createdAt: serverTimestamp(),
+        });
+
+        // Actualizar el reporte de ventas diario de forma segura con una transacción
+        await runTransaction(db, async (transaction) => {
+          const dailyReportDoc = await transaction.get(dailyReportRef);
+          const fieldPath = `products.${selectedProduct.id}`;
+          if (!dailyReportDoc.exists()) {
+            transaction.set(dailyReportRef, { date: new Date(dateString), products: { [selectedProduct.id]: { name: selectedProduct.nombre, quantity: qty } } });
+          } else {
+            transaction.update(dailyReportRef, { [`${fieldPath}.quantity`]: increment(qty), [`${fieldPath}.name`]: selectedProduct.nombre });
+          }
         });
       }
       // Reset form
