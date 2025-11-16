@@ -28,7 +28,6 @@ const Homepage = () => {
           <h1>Inventario Al Aire Rooftop</h1>
         </div>
         <div className="header-user-actions">
-          <button className="notification-button">🔔</button>
           {userProfile && <p>Bienvenido, {userProfile.nombre} {userProfile.apellido}</p>}
           <button onClick={handleLogout} className="logout-button">Cerrar Sesión</button>
         </div>

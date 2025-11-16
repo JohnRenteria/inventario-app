@@ -146,10 +146,8 @@ const MovementForm = ({ disabled }) => {
             transaction.update(dailyReportRef, { [`${fieldPath}.quantity`]: increment(qty), [`${fieldPath}.name`]: selectedProduct.nombre });
           }
         });
-      }
-      // Reset form
 
-      if (isSalida) {
+        // Ahora también llamamos a la función de alerta
         await checkAndAlertForLowStock(selectedProduct.id);
       }
 
