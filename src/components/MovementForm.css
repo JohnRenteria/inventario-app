@@ -89,6 +89,15 @@
   margin-top: 1rem;
 }
 
+/* --- INICIO: ESTILOS RESPONSIVOS --- */
+
+@media (max-width: 768px) {
+  .movement-form {
+    grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */
+    gap: 0.75rem;
+  }
+}
+
 .form-overlay {
   position: absolute;
   top: 0;

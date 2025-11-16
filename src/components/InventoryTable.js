@@ -6,6 +6,7 @@ import AddProductForm from './AddProductForm';
 import { useAuth } from '../context/AuthContext';
 import { useModal } from '../context/ModalContext';
 import SaveReportModal from './SaveReportModal';
+import './InventoryTable.css';
 
 const InventoryTable = () => {
   const { userProfile, inventory, loading, isInventoryLocked } = useAuth();
@@ -155,87 +156,93 @@ const InventoryTable = () => {
         inventory={inventory}
         user={userProfile}
       />
-      <div className="inventory-table-container">
-        {/* 1. Título cambiado */}
-        <h3>Inventario</h3>
-        <div className="search-container">
-          <input
-            type="text"
-            placeholder="Buscar producto por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
+      <div className="inventario-container">
+        <header className="inventario-header">
+          <h3>Inventario</h3>
+          <div className="search-container">
+            <input
+              type="text"
+              placeholder="Buscar producto por nombre..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+            />
+          </div>
+        </header>
+
+        <div className="tabla-scroll-container">
+          <table className="tabla-productos">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Bodega</th>
+                <th>Ingreso</th>
+                <th>Salida</th>
+                <th>Barra</th>
+                <th>Total</th>
+                <th>Stock Mín.</th>
+                <th>Stock Máx.</th>
+                <th>Responsable</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((item) => (
+                editingProductId === item.id ? (
+                  // Fila en modo edición
+                  <tr key={item.id} className="editing-row">
+                    <td><input type="text" name="nombre" value={editFormData.nombre} onChange={handleFormChange} /></td>
+                    <td><input type="number" name="bodega" value={editFormData.bodega} onChange={handleFormChange} /></td>
+                    <td>{item.ingreso || 0}</td>
+                    <td>{item.salida || 0}</td>
+                    <td><input type="number" name="barra" value={editFormData.barra} onChange={handleFormChange} /></td>
+                    <td>{item.total || 0}</td>
+                    <td><input type="number" name="stockMin" value={editFormData.stockMin} onChange={handleFormChange} /></td>
+                    <td><input type="number" name="stockMax" value={editFormData.stockMax} onChange={handleFormChange} /></td>
+                    <td>...</td>
+                    <td className="actions-cell">
+                      <button onClick={() => handleSaveEdit(item.id)} className="action-button save-inline-button">💾</button>
+                      <button onClick={handleCancelEdit} className="action-button cancel-inline-button">❌</button>
+                    </td>
+                  </tr>
+                ) : (
+                  // Fila en modo lectura
+                  <tr key={item.id}>
+                    <td>{item.nombre}</td>
+                    <td>{item.bodega || 0}</td>
+                    <td>{item.ingreso || 0}</td>
+                    <td>{item.salida || 0}</td>
+                    <td>{item.barra || 0}</td>
+                    <td>{item.total || 0}</td>
+                    <td>{item.stockMin || 0}</td>
+                    <td>{item.stockMax || 0}</td>
+                    <td><div>{item.responsable || 'N/A'}</div><div className="timestamp-cell">{formatTimestamp(item.lastUpdated)}</div></td>
+                    <td className="actions-cell">
+                      {canEdit && <button onClick={() => handleEditClick(item)} className="action-button edit-button">✏️</button>}
+                      {canDelete && <button onClick={() => handleDelete(item.id)} className="action-button delete-button">🗑️</button>}
+                    </td>
+                  </tr>
+                )
+              ))}
+            </tbody>
+          </table>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Bodega</th>
-              <th>Ingreso</th>
-              <th>Salida</th>
-              <th>Barra</th>
-              <th>Total</th>
-              <th>Stock Mín.</th>
-              <th>Stock Máx.</th>
-              <th>Responsable</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentItems.map((item) => (
-              editingProductId === item.id ? (
-                // Fila en modo edición
-                <tr key={item.id} className="editing-row">
-                  <td><input type="text" name="nombre" value={editFormData.nombre} onChange={handleFormChange} /></td>
-                  <td><input type="number" name="bodega" value={editFormData.bodega} onChange={handleFormChange} /></td>
-                  <td>{item.ingreso || 0}</td>
-                  <td>{item.salida || 0}</td>
-                  <td><input type="number" name="barra" value={editFormData.barra} onChange={handleFormChange} /></td>
-                  <td>{item.total || 0}</td>
-                  <td><input type="number" name="stockMin" value={editFormData.stockMin} onChange={handleFormChange} /></td>
-                  <td><input type="number" name="stockMax" value={editFormData.stockMax} onChange={handleFormChange} /></td>
-                  <td>...</td>
-                  <td className="actions-cell">
-                    <button onClick={() => handleSaveEdit(item.id)} className="action-button save-inline-button">💾</button>
-                    <button onClick={handleCancelEdit} className="action-button cancel-inline-button">❌</button>
-                  </td>
-                </tr>
-              ) : (
-                // Fila en modo lectura
-                <tr key={item.id}>
-                  <td>{item.nombre}</td>
-                  <td>{item.bodega || 0}</td>
-                  <td>{item.ingreso || 0}</td>
-                  <td>{item.salida || 0}</td>
-                  <td>{item.barra || 0}</td>
-                  <td>{item.total || 0}</td>
-                  <td>{item.stockMin || 0}</td>
-                  <td>{item.stockMax || 0}</td>
-                  <td><div>{item.responsable || 'N/A'}</div><div className="timestamp-cell">{formatTimestamp(item.lastUpdated)}</div></td>
-                  <td className="actions-cell">
-                    {canEdit && <button onClick={() => handleEditClick(item)} className="action-button edit-button">✏️</button>}
-                    {canDelete && <button onClick={() => handleDelete(item.id)} className="action-button delete-button">🗑️</button>}
-                  </td>
-                </tr>
-              )
-            ))}
-          </tbody>
-        </table>
-        {/* 3. Controles de paginación */}
-        <div className="pagination">
-          <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
-            Anterior
-          </button>
-          <span>Página {currentPage} de {totalPages}</span>
-          <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
-            Siguiente
-          </button>
-        </div>
-        <div className="review-button-container">
-          {canSave && <button onClick={() => setIsSaveModalOpen(true)} className="save-button" disabled={isInventoryLocked}>Guardar</button>}
-          {canReview && <button onClick={handleReviewComplete} className="review-button" disabled={!isInventoryLocked}>Revisado</button>}
-        </div>
+
+        <footer className="inventario-footer">
+          <div className="pagination">
+            <button onClick={() => paginate(currentPage - 1)} disabled={currentPage === 1}>
+              Anterior
+            </button>
+            <span>Página {currentPage} de {totalPages}</span>
+            <button onClick={() => paginate(currentPage + 1)} disabled={currentPage === totalPages}>
+              Siguiente
+            </button>
+          </div>
+          <div className="review-button-container">
+            {canSave && <button onClick={() => setIsSaveModalOpen(true)} className="save-button" disabled={isInventoryLocked}>Guardar</button>}
+            {canReview && <button onClick={handleReviewComplete} className="review-button" disabled={!isInventoryLocked}>Revisado</button>}
+          </div>
+        </footer>
       </div>
       {canRegisterMovement && <MovementForm disabled={isInventoryLocked} />}
       {canAddProduct && <AddProductForm />}

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { collection, doc, updateDoc, increment, serverTimestamp, addDoc, runTransaction } from 'firebase/firestore';
+import { collection, doc, updateDoc, increment, serverTimestamp, addDoc, runTransaction, getDoc } from 'firebase/firestore';
 import { db } from '../firesbase/config';
 import { useAuth } from '../context/AuthContext';
 import './MovementForm.css';
@@ -36,6 +36,31 @@ const MovementForm = ({ disabled }) => {
     setSuggestions([]);
   };
 
+  const checkAndAlertForLowStock = async (productId) => {
+    try {
+      // 1. Obtiene los datos más recientes del producto desde Firestore
+      const productRef = doc(db, 'inventory', productId);
+      const productSnap = await getDoc(productRef);
+  
+      if (productSnap.exists()) {
+        const product = productSnap.data();
+        const { nombre, total, stockMin } = product;
+  
+        // 2. Comprueba si el stock es bajo y si hay un mínimo definido
+        if (stockMin > 0 && total <= stockMin) {
+          // 3. Muestra la alerta usando el modal
+          showModal({
+            title: '⚠️ Alerta de Stock Bajo',
+            message: `El producto "${nombre}" ha alcanzado el stock mínimo. Quedan solo ${total} unidades.`,
+            type: 'warning', // Añadimos un tipo para identificar la alerta
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error al verificar el stock del producto:", error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!selectedProduct) {
@@ -55,6 +80,7 @@ const MovementForm = ({ disabled }) => {
 
     try {
       let updates = { responsable, lastUpdated: serverTimestamp() };
+      let isSalida = false;
 
       switch (movementType) {
         case 'Ingreso a Bodega':
@@ -71,20 +97,23 @@ const MovementForm = ({ disabled }) => {
           if (selectedProduct.bodega < qty) throw new Error('No hay suficiente stock en bodega.');
           updates.bodega = increment(-qty);
           // Se registra como una salida de la bodega, pero el stock de la barra no cambia.
-          updates.salida = increment(qty);
-          updates.total = increment(-qty);
+          // updates.salida = increment(qty); // No se registra como salida general
+          // updates.total = increment(-qty); // El total no cambia, es un traspaso
+          updates.barra = increment(qty);
           break;
         case 'Salida de Bodega':
           if (selectedProduct.bodega < qty) throw new Error('No hay suficiente stock en bodega.');
           updates.bodega = increment(-qty);
           updates.salida = increment(qty);
           updates.total = increment(-qty);
+          isSalida = true;
           break;
         case 'Salida de Barra':
           if (selectedProduct.barra < qty) throw new Error('No hay suficiente stock en barra.');
           updates.barra = increment(-qty);
           updates.salida = increment(qty);
           updates.total = increment(-qty);
+          isSalida = true;
           break;
         default:
           throw new Error('Tipo de movimiento no válido');
@@ -111,7 +140,7 @@ const MovementForm = ({ disabled }) => {
         });
       }
       // Registrar el movimiento en el historial para los reportes
-      if (movementType.includes('Salida') || movementType === 'Bodega a Barra') {
+      if (isSalida) {
         await addDoc(collection(db, 'inventory_movements'), {
           productId: selectedProduct.id,
           productName: selectedProduct.nombre,
@@ -121,6 +150,11 @@ const MovementForm = ({ disabled }) => {
         });
       }
       // Reset form
+
+      if (isSalida) {
+        await checkAndAlertForLowStock(selectedProduct.id);
+      }
+
       setProductName('');
       setSelectedProduct(null);
       setQuantity('');

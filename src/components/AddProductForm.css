@@ -64,3 +64,15 @@
   margin-top: 1rem;
   margin-bottom: 0;
 }
+
+/* --- INICIO: ESTILOS RESPONSIVOS --- */
+
+@media (max-width: 768px) {
+  .add-product-form {
+    grid-template-columns: 1fr; /* Cambia a una sola columna */
+  }
+
+  .add-product-form input[name="nombre"] {
+    grid-column: auto; /* Resetea el span en layout de una columna */
+  }
+}
