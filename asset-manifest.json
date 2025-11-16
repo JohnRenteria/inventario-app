@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/inventario-app/static/css/main.a607b610.css",
-    "main.js": "/inventario-app/static/js/main.46dbda2f.js",
+    "main.js": "/inventario-app/static/js/main.4bef4217.js",
     "static/js/453.6bd0c872.chunk.js": "/inventario-app/static/js/453.6bd0c872.chunk.js",
     "index.html": "/inventario-app/index.html",
     "main.a607b610.css.map": "/inventario-app/static/css/main.a607b610.css.map",
-    "main.46dbda2f.js.map": "/inventario-app/static/js/main.46dbda2f.js.map",
+    "main.4bef4217.js.map": "/inventario-app/static/js/main.4bef4217.js.map",
     "453.6bd0c872.chunk.js.map": "/inventario-app/static/js/453.6bd0c872.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a607b610.css",
-    "static/js/main.46dbda2f.js"
+    "static/js/main.4bef4217.js"
   ]
 }
