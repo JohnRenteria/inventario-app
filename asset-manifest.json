@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/inventario-app/static/css/main.39243e5f.css",
-    "main.js": "/inventario-app/static/js/main.95f8c1c2.js",
+    "main.css": "/inventario-app/static/css/main.449b57f5.css",
+    "main.js": "/inventario-app/static/js/main.337a0047.js",
     "static/js/977.98f7f29d.chunk.js": "/inventario-app/static/js/977.98f7f29d.chunk.js",
     "static/js/455.937fcf4b.chunk.js": "/inventario-app/static/js/455.937fcf4b.chunk.js",
     "static/js/453.389d07c2.chunk.js": "/inventario-app/static/js/453.389d07c2.chunk.js",
     "index.html": "/inventario-app/index.html",
-    "main.39243e5f.css.map": "/inventario-app/static/css/main.39243e5f.css.map",
-    "main.95f8c1c2.js.map": "/inventario-app/static/js/main.95f8c1c2.js.map",
+    "main.449b57f5.css.map": "/inventario-app/static/css/main.449b57f5.css.map",
+    "main.337a0047.js.map": "/inventario-app/static/js/main.337a0047.js.map",
     "977.98f7f29d.chunk.js.map": "/inventario-app/static/js/977.98f7f29d.chunk.js.map",
     "455.937fcf4b.chunk.js.map": "/inventario-app/static/js/455.937fcf4b.chunk.js.map",
     "453.389d07c2.chunk.js.map": "/inventario-app/static/js/453.389d07c2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.39243e5f.css",
-    "static/js/main.95f8c1c2.js"
+    "static/css/main.449b57f5.css",
+    "static/js/main.337a0047.js"
   ]
 }
