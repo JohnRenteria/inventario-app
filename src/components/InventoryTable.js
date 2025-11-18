@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { doc, deleteDoc, updateDoc, serverTimestamp, writeBatch } from 'firebase/firestore';
 import { db } from '../firesbase/config';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import autoTable from 'jspdf-autotable';
 import MovementForm from './MovementForm';
 import AddProductForm from './AddProductForm';
 import { useAuth } from '../context/AuthContext';
 import { useModal } from '../context/ModalContext';
 import SaveReportModal from './SaveReportModal';
+import DownloadModal from './DownloadModal';
 import './InventoryTable.css';
 
 const InventoryTable = () => {
@@ -16,6 +20,7 @@ const InventoryTable = () => {
   const [editingProductId, setEditingProductId] = useState(null); // ID del producto en edición
   const [editFormData, setEditFormData] = useState({}); // Datos del formulario de edición
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
+  const [isDownloadModalOpen, setIsDownloadModalOpen] = useState(false);
   const itemsPerPage = 10;
   const [sortedInventory, setSortedInventory] = useState([]);
 
@@ -64,18 +69,13 @@ const InventoryTable = () => {
   const handleFormChange = (e) => {
     const { name, value } = e.target;
     const isNumberField = name !== 'nombre';
-    const newValue = isNumberField ? Number(value) : value;
+    const newValue = isNumberField ? (value === '' ? '' : Number(value)) : value;
 
-    setEditFormData(prevData => {
-      const updatedData = { ...prevData, [name]: newValue };
-
-      // Recalcular el total en tiempo real si se cambia bodega o barra
-      if (name === 'bodega' || name === 'barra') {
-        updatedData.total = (name === 'bodega' ? newValue : prevData.bodega) + (name === 'barra' ? newValue : prevData.barra);
-      }
-      return updatedData;
-    });
+    setEditFormData(prevData => ({ ...prevData, [name]: newValue }));
   };
+
+  // Recalculamos el total en el estado de edición para que se vea en tiempo real
+  const editingTotal = (editFormData.bodega || 0) + (editFormData.barra || 0);
 
   const handleDelete = async (id) => {
     showModal({
@@ -113,6 +113,60 @@ const InventoryTable = () => {
         }
       },
     });
+  };
+
+  const handleDownloadPdf = () => {
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const date = new Date();
+    const formattedDate = date.toLocaleString('es-CO', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+    const responsable = `${userProfile.nombre} ${userProfile.apellido}`;
+
+    // Título
+    doc.setFontSize(18);
+    doc.text("Reporte de Inventario - Al Aire Rooftop", 14, 22);
+
+    // Subtítulos con información de descarga
+    doc.setFontSize(10);
+    doc.setTextColor(100); // Un color de texto más suave
+    doc.text(`Descargado por: ${responsable}`, 14, 30);
+    doc.text(`Fecha de descarga: ${formattedDate}`, 14, 35);
+
+    autoTable(doc, {
+      head: [['Nombre', 'Bodega', 'Ingreso', 'Salida', 'Barra', 'Total', 'Stock Mín.', 'Stock Máx.']],
+      body: sortedInventory.map(item => [
+        item.nombre, item.bodega || 0, item.ingreso || 0, item.salida || 0,
+        item.barra || 0, item.total || 0, item.stockMin || 0, item.stockMax || 0,
+      ]),
+      startY: 40, // Ajustamos la posición para que no se solape con los nuevos textos
+      theme: 'striped',
+      headStyles: { fillColor: [34, 34, 34] },
+    });
+    doc.save(`inventario-al-aire-${date.toISOString().slice(0, 10)}.pdf`);
+    setIsDownloadModalOpen(false);
+  };
+
+  const handleDownloadImage = () => {
+    const elementToCapture = document.getElementById('capture-container');
+    if (!elementToCapture) return;
+
+    html2canvas(elementToCapture, {
+      scale: 2, // Aumenta la resolución de la imagen
+      useCORS: true,
+    }).then(canvas => {
+      const image = canvas.toDataURL('image/png', 1.0);
+      const link = document.createElement('a');
+      const date = new Date().toISOString().slice(0, 10);
+      link.download = `inventario-al-aire-${date}.png`;
+      link.href = image;
+      link.click();
+    });
+    setIsDownloadModalOpen(false);
   };
 
   const formatTimestamp = (timestamp) => {
@@ -156,6 +210,7 @@ const InventoryTable = () => {
   const canSave = userProfile && ['Bartender', 'Jefe de Barra', 'Administradora'].includes(userProfile.rol);
   const canEdit = userProfile && ['Jefe de Barra', 'Administradora'].includes(userProfile.rol);
   const canDelete = userProfile && ['Jefe de Barra', 'Administradora'].includes(userProfile.rol);
+  const canDownload = userProfile && userProfile.rol !== 'Bartender';
 
 
   return (
@@ -165,6 +220,12 @@ const InventoryTable = () => {
         onClose={() => setIsSaveModalOpen(false)}
         inventory={inventory}
         user={userProfile}
+      />
+      <DownloadModal
+        isOpen={isDownloadModalOpen}
+        onClose={() => setIsDownloadModalOpen(false)}
+        onDownloadAsPdf={handleDownloadPdf}
+        onDownloadAsImage={handleDownloadImage}
       />
       <div className="inventario-container">
         <header className="inventario-header">
@@ -206,7 +267,7 @@ const InventoryTable = () => {
                     <td>{item.ingreso || 0}</td>
                     <td>{item.salida || 0}</td>
                     <td><input type="number" name="barra" value={editFormData.barra} onChange={handleFormChange} /></td>
-                    <td>{editFormData.total || 0}</td>
+                    <td>{editingTotal}</td>
                     <td><input type="number" name="stockMin" value={editFormData.stockMin} onChange={handleFormChange} /></td>
                     <td><input type="number" name="stockMax" value={editFormData.stockMax} onChange={handleFormChange} /></td>
                     <td>...</td>
@@ -249,6 +310,7 @@ const InventoryTable = () => {
             </button>
           </div>
           <div className="review-button-container">
+            {canDownload && <button onClick={() => setIsDownloadModalOpen(true)} className="download-button">Descargar</button>}
             {canSave && <button onClick={() => setIsSaveModalOpen(true)} className="save-button" disabled={isInventoryLocked}>Guardar</button>}
             {canReview && <button onClick={handleReviewComplete} className="review-button" disabled={!isInventoryLocked}>Revisado</button>}
           </div>
@@ -256,6 +318,47 @@ const InventoryTable = () => {
       </div>
       {canRegisterMovement && <MovementForm disabled={isInventoryLocked} />}
       {canAddProduct && <AddProductForm />}
+
+      {/* Tabla oculta para la captura de imagen con todos los productos */}
+      <div style={{ position: 'absolute', left: '-9999px', top: 'auto' }}>
+        <div id="capture-container" style={{ padding: '20px', backgroundColor: 'white', width: '1200px' }}>
+          <h2 style={{ textAlign: 'center', color: '#333' }}>Reporte de Inventario - Al Aire Rooftop</h2>
+          <p style={{ textAlign: 'center', color: '#666', fontSize: '14px', marginTop: '-10px' }}>
+            Descargado por: {userProfile.nombre} {userProfile.apellido}
+          </p>
+          <p style={{ textAlign: 'center', color: '#666', fontSize: '14px', marginTop: '-10px', marginBottom: '25px' }}>
+            Fecha de descarga: {new Date().toLocaleString('es-CO', { day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' })}
+          </p>
+          <table className="tabla-productos">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Bodega</th>
+                <th>Ingreso</th>
+                <th>Salida</th>
+                <th>Barra</th>
+                <th>Total</th>
+                <th>Stock Mín.</th>
+                <th>Stock Máx.</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sortedInventory.map((item) => (
+                <tr key={`capture-${item.id}`}>
+                  <td>{item.nombre}</td>
+                  <td>{item.bodega || 0}</td>
+                  <td>{item.ingreso || 0}</td>
+                  <td>{item.salida || 0}</td>
+                  <td>{item.barra || 0}</td>
+                  <td>{item.total || 0}</td>
+                  <td>{item.stockMin || 0}</td>
+                  <td>{item.stockMax || 0}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   );
 };

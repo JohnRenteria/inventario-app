@@ -1,0 +1,44 @@
+.download-modal-content {
+  max-width: 500px; /* Un ancho más adecuado para este modal */
+}
+
+.download-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.download-options button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.download-pdf-button {
+  background-color: #d93025; /* Color rojo de PDF */
+  color: white;
+}
+
+.download-pdf-button:hover {
+  background-color: #b0261e;
+  transform: translateY(-2px);
+}
+
+.download-image-button {
+  background-color: #1a73e8; /* Color azul de imagen/google */
+  color: white;
+}
+
+.download-image-button:hover {
+  background-color: #1662c4;
+  transform: translateY(-2px);
+}

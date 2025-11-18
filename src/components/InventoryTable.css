@@ -1,119 +1,103 @@
-/* Contenedor principal que organiza las 3 secciones (header, tabla, footer) */
+/* Contenedor principal del inventario */
 .inventario-container {
-    display: flex;
-    flex-direction: column;
-    /* Ocupa el espacio disponible, pero permite que otros elementos (como los formularios de abajo) también existan.
-       Si esta es la única vista en la página, podrías usar height: 90vh o similar. */
-    height: 500px; /* Ajusta esta altura según tus necesidades */
-    max-height: 70vh; /* O un valor que funcione para tu layout */
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 1rem;
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Importante para que los bordes redondeados se apliquen bien */
+  margin-bottom: 2rem;
 }
 
-/* Cabecera con título y buscador. No se encoge y no tiene scroll. */
+/* Cabecera con título y búsqueda */
 .inventario-header {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-bottom: 1rem;
-    border-bottom: 2px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .inventario-header h3 {
-    margin: 0;
+  margin: 0;
 }
 
-.search-container .search-input {
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    min-width: 250px;
-}
-
-/* 
- * ¡AQUÍ ESTÁ LA CLAVE!
- * Contenedor de la tabla:
- * - 'flex-grow: 1' hace que este contenedor ocupe todo el espacio vertical disponible.
- * - 'overflow-y: auto' es la propiedad mágica. Muestra una barra de scroll vertical
- *   SOLAMENTE si el contenido (la tabla) es más alto que el contenedor.
- * - 'min-height: 0' es una corrección para algunos navegadores en contextos de flexbox.
-*/
+/* Contenedor que permite el scroll de la tabla */
 .tabla-scroll-container {
-    flex-grow: 1;
-    /* Habilitamos scroll en ambos ejes para responsividad */
-    overflow: auto;
-    min-height: 0;
-    margin-top: 1rem;
+  overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
+  width: 100%;
 }
 
-/* Estilos para la tabla */
+/* Estilos de la tabla */
 .tabla-productos {
-    width: 100%;
-    border-collapse: collapse;
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .tabla-productos th,
 .tabla-productos td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-    white-space: nowrap; /* Evita que el texto se parta en varias líneas */
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  white-space: nowrap; /* Evita que el texto se parta en varias líneas */
 }
 
-/*
- * Hacemos que la cabecera de la tabla (los títulos de las columnas)
- * se quede fija en la parte superior mientras se hace scroll DENTRO de la tabla.
-*/
-.tabla-productos thead {
-    position: sticky;
-    top: 0;
-    background-color: #f8f9fa;
-    z-index: 10;
+.tabla-productos tbody tr:last-child td {
+  border-bottom: none; /* Quita el borde de la última fila */
 }
 
-/* Pie de página con paginación y botones. No se encoge y no tiene scroll. */
+/* Pie de página con paginación y botones */
 .inventario-footer {
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 1rem;
-    border-top: 2px solid #e0e0e0;
-    margin-top: auto; /* Empuja el footer hacia abajo */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e0e0e0;
 }
 
-.pagination, .review-button-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+.pagination,
+.review-button-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Nuevo estilo para el botón de descarga */
+.download-button {
+  padding: 0.6rem 1.2rem;
+  border: 1px solid #17a2b8;
+  border-radius: 5px;
+  background-color: #17a2b8;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.download-button:hover {
+  background-color: #138496;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
 }
 
 .pagination span {
-    padding: 0 0.5rem;
+  margin: 0 0.5rem;
 }
 
 /* --- INICIO: ESTILOS RESPONSIVOS --- */
 
 @media (max-width: 768px) {
-    .inventario-container {
-        height: auto; /* Altura automática para adaptarse al contenido en móviles */
-        max-height: 85vh; /* Un poco más de espacio vertical en móviles */
-        padding: 0.5rem;
-    }
+  .inventario-header,
+  .inventario-footer {
+    flex-direction: column; /* Apila los elementos verticalmente */
+    gap: 1rem; /* Espacio entre los elementos apilados */
+    align-items: stretch; /* Estira los elementos para ocupar el ancho */
+    text-align: center;
+  }
 
-    .inventario-header, .inventario-footer {
-        flex-direction: column; /* Apila los elementos verticalmente */
-        gap: 1rem; /* Espacio entre los elementos apilados */
-        align-items: stretch; /* Estira los elementos para ocupar el ancho */
-        text-align: center;
-    }
-
-    .search-container .search-input {
-        width: 100%; /* El buscador ocupa todo el ancho */
-    }
+  .search-container .search-input {
+    width: 100%; /* El buscador ocupa todo el ancho */
+  }
 }
