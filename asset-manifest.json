@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/inventario-app/static/css/main.89873638.css",
+    "main.css": "/inventario-app/static/css/main.429af131.css",
     "main.js": "/inventario-app/static/js/main.dbd7e698.js",
     "static/js/977.98f7f29d.chunk.js": "/inventario-app/static/js/977.98f7f29d.chunk.js",
     "static/js/455.937fcf4b.chunk.js": "/inventario-app/static/js/455.937fcf4b.chunk.js",
     "static/js/453.389d07c2.chunk.js": "/inventario-app/static/js/453.389d07c2.chunk.js",
     "index.html": "/inventario-app/index.html",
-    "main.89873638.css.map": "/inventario-app/static/css/main.89873638.css.map",
+    "main.429af131.css.map": "/inventario-app/static/css/main.429af131.css.map",
     "main.dbd7e698.js.map": "/inventario-app/static/js/main.dbd7e698.js.map",
     "977.98f7f29d.chunk.js.map": "/inventario-app/static/js/977.98f7f29d.chunk.js.map",
     "455.937fcf4b.chunk.js.map": "/inventario-app/static/js/455.937fcf4b.chunk.js.map",
     "453.389d07c2.chunk.js.map": "/inventario-app/static/js/453.389d07c2.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.89873638.css",
+    "static/css/main.429af131.css",
     "static/js/main.dbd7e698.js"
   ]
 }
