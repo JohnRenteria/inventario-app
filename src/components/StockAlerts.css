@@ -1,31 +1,43 @@
-.stock-alerts-container {
+.stock-alerts-container { /* Renombrado de .componente-container */
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
-  padding: 1.5rem 2rem;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   margin-bottom: 2rem;
 }
 
-.stock-alerts-container h4 {
+.stock-alerts-header { /* Nuevo header */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.stock-alerts-header h4 {
   margin-top: 0;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   color: #333;
 }
 
-.stock-alerts-container table {
+/* Estilos para la tabla dentro del contenedor de scroll */
+.tabla-scroll-container table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.stock-alerts-container th,
-.stock-alerts-container td {
+.tabla-scroll-container th,
+.tabla-scroll-container td {
   padding: 0.75rem 1rem;
   text-align: left;
   border-bottom: 1px solid #eee;
+  white-space: nowrap; /* Evita que el texto se parta en varias líneas */
 }
 
-.stock-alerts-container th {
-  font-weight: 600;
+.tabla-scroll-container th {
+  font-weight: 600; /* Hereda de .stock-alerts-container th */
 }
 
 .status-low {
@@ -44,4 +56,21 @@
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+}
+
+/* Contenedor para el scroll horizontal de la tabla */
+.tabla-scroll-container {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* --- INICIO: ESTILOS RESPONSIVOS --- */
+
+@media (max-width: 768px) and (orientation: portrait) {
+  .stock-alerts-header {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+    text-align: center;
+  }
 }

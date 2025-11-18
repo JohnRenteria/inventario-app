@@ -35,34 +35,36 @@ const StockAlerts = () => {
 
   return (
     <div className="stock-alerts-container">
-      <h4>Alertas de Stock</h4>
+      <header className="stock-alerts-header">
+        <h4>Alertas de Stock</h4>
+      </header>
       {alerts.length === 0 ? (
-        <p>No hay alertas de stock en este momento.</p>
+        <p style={{ padding: '1rem 1.5rem' }}>No hay alertas de stock en este momento.</p>
       ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Ubicación</th>
-              <th>Stock Actual</th>
-              <th>Stock Mínimo</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-          <tbody>
-            {alerts.map(item => {
-              return (
-                <tr key={item.id} className="status-low">
-                  <td>{item.nombre}</td>
-                  <td>{item.ubicacion}</td>
-                  <td>{item.stockActual}</td>
-                  <td>{item.stockMin}</td>
-                  <td>Bajo Stock</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div className="tabla-scroll-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Ubicación</th>
+                <th>Stock Actual</th>
+                <th>Stock Mínimo</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+            <tbody>
+              {alerts.map(item => (
+                  <tr key={item.id} className="status-low">
+                    <td>{item.nombre}</td>
+                    <td>{item.ubicacion}</td>
+                    <td>{item.stockActual}</td>
+                    <td>{item.stockMin}</td>
+                    <td>Bajo Stock</td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

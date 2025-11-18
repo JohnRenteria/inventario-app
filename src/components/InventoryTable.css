@@ -88,7 +88,11 @@
 
 /* --- INICIO: ESTILOS RESPONSIVOS --- */
 
-@media (max-width: 768px) {
+/* 
+ * Aplicamos estos estilos solo en pantallas estrechas Y en orientación vertical (retrato).
+ * Esto evita que el diseño se "rompa" al girar el celular a horizontal.
+*/
+@media (max-width: 768px) and (orientation: portrait) {
   .inventario-header,
   .inventario-footer {
     flex-direction: column; /* Apila los elementos verticalmente */
