@@ -69,17 +69,19 @@ const AddProductForm = () => {
   return (
     <>
     <div className="add-product-form-container">
-      <h3>Agregar Producto</h3>
-      <form onSubmit={handleSubmit} className="add-product-form">
-        <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre del Producto" required />
-        <input type="number" name="bodega" value={formData.bodega} onChange={handleChange} placeholder="Cantidad en Bodega" />
-        <input type="number" name="barra" value={formData.barra} onChange={handleChange} placeholder="Cantidad en Barra" />
-        <input type="number" name="stockMin" value={formData.stockMin} onChange={handleChange} placeholder="Stock Mínimo" />
-        <input type="number" name="stockMax" value={formData.stockMax} onChange={handleChange} placeholder="Stock Máximo" />
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Agregando...' : 'Agregar Producto'}
-        </button>
-      </form>
+      <h3>Agregar Nuevo Producto</h3>
+      <div className="form-scroll-container">
+        <form onSubmit={handleSubmit} className="add-product-form">
+          <input type="text" name="nombre" value={formData.nombre} onChange={handleChange} placeholder="Nombre del Producto" required />
+          <input type="number" name="bodega" value={formData.bodega} onChange={handleChange} placeholder="Cantidad en Bodega" />
+          <input type="number" name="barra" value={formData.barra} onChange={handleChange} placeholder="Cantidad en Barra" />
+          <input type="number" name="stockMin" value={formData.stockMin} onChange={handleChange} placeholder="Stock Mínimo" />
+          <input type="number" name="stockMax" value={formData.stockMax} onChange={handleChange} placeholder="Stock Máximo" />
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Agregando...' : 'Agregar Producto'}
+          </button>
+        </form>
+      </div>
     </div>
     </>
   );
