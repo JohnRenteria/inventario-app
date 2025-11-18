@@ -171,45 +171,47 @@ const MovementForm = ({ disabled }) => {
         </div>
       )}
       <h3>Registrar Movimiento</h3>
-      <form onSubmit={handleSubmit} className="movement-form">
-        <div className="autocomplete-container">
+      <div className="form-scroll-container">
+        <form onSubmit={handleSubmit} className="movement-form">
+          <div className="autocomplete-container">
+            <input
+              type="text"
+              value={productName}
+              onChange={handleProductNameChange}
+              placeholder="Buscar producto..."
+              autoComplete="off"
+              disabled={disabled}
+            />
+            {suggestions.length > 0 && (
+              <ul className="suggestions-list">
+                {suggestions.map(suggestion => (
+                  <li key={suggestion.id} onClick={() => onSuggestionClick(suggestion)}>
+                    {suggestion.nombre}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+          <select value={movementType} onChange={(e) => setMovementType(e.target.value)} disabled={disabled}>
+            <option value="Ingreso a Bodega">Ingreso a Bodega</option>
+            <option value="Ingreso a Barra">Ingreso a Barra</option>
+            <option value="Bodega a Barra">Bodega a Barra</option>
+            <option value="Salida de Barra">Salida de Barra</option>
+            <option value="Salida de Bodega">Salida de Bodega</option>
+          </select>
           <input
-            type="text"
-            value={productName}
-            onChange={handleProductNameChange}
-            placeholder="Buscar producto..."
-            autoComplete="off"
+            type="number"
+            value={quantity}
+            onChange={(e) => setQuantity(e.target.value)}
+            placeholder="Cantidad"
+            min="1"
             disabled={disabled}
           />
-          {suggestions.length > 0 && (
-            <ul className="suggestions-list">
-              {suggestions.map(suggestion => (
-                <li key={suggestion.id} onClick={() => onSuggestionClick(suggestion)}>
-                  {suggestion.nombre}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-        <select value={movementType} onChange={(e) => setMovementType(e.target.value)} disabled={disabled}>
-          <option value="Ingreso a Bodega">Ingreso a Bodega</option>
-          <option value="Ingreso a Barra">Ingreso a Barra</option>
-          <option value="Bodega a Barra">Bodega a Barra</option>
-          <option value="Salida de Barra">Salida de Barra</option>
-          <option value="Salida de Bodega">Salida de Bodega</option>
-        </select>
-        <input
-          type="number"
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          placeholder="Cantidad"
-          min="1"
-          disabled={disabled}
-        />
-        <button type="submit" disabled={isSubmitting || disabled}>
-          {isSubmitting ? 'Agregando...' : 'Agregar Movimiento'}
-        </button>
-      </form>
+          <button type="submit" disabled={isSubmitting || disabled}>
+            {isSubmitting ? 'Agregando...' : 'Agregar Movimiento'}
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
