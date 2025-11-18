@@ -91,7 +91,7 @@
 
 /* --- INICIO: ESTILOS RESPONSIVOS --- */
 
-@media (max-width: 768px) {
+@media (max-width: 768px) and (orientation: portrait) {
   .movement-form {
     grid-template-columns: 1fr; /* Cambia a una sola columna en pantallas pequeñas */
     gap: 0.75rem;

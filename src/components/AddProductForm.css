@@ -1,9 +1,11 @@
 .add-product-form-container {
+  display: flex;
+  flex-direction: column;
   background-color: #fff;
-  padding: 1.5rem 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   margin-top: 2rem;
+  overflow: hidden; /* Clave para que los bordes redondeados se apliquen bien */
 }
 
 .add-product-form-container h3 {
@@ -11,6 +13,12 @@
   margin-bottom: 1.5rem;
   text-align: center;
   color: #333;
+  padding: 1.5rem 2rem 0; /* Ajustamos el padding para que esté solo aquí */
+}
+
+.form-scroll-container {
+  overflow-x: auto; /* Habilita el scroll horizontal */
+  padding: 0 2rem 1.5rem; /* Padding para el contenido del formulario */
 }
 
 .add-product-form {
@@ -67,7 +75,7 @@
 
 /* --- INICIO: ESTILOS RESPONSIVOS --- */
 
-@media (max-width: 768px) {
+@media (max-width: 768px) and (orientation: portrait) {
   .add-product-form {
     grid-template-columns: 1fr; /* Cambia a una sola columna */
   }
