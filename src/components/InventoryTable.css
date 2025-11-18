@@ -101,7 +101,8 @@
     text-align: center;
   }
 
-  .search-container .search-input {
+  /* Aseguramos que el buscador ocupe todo el ancho en la vista móvil vertical */
+  .inventario-header .search-container .search-input {
     width: 100%; /* El buscador ocupa todo el ancho */
   }
 }
