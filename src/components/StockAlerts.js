@@ -7,25 +7,26 @@ const StockAlerts = () => {
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
-    const generatedAlerts = inventory.map(p => {
-      let stockToCheck = p.bodega || 0;
-      let location = 'Bodega';
-      let showAlert = false;
+    const allAlerts = [];
+    inventory.forEach(p => {
+      // Solo procesar si el stock mínimo está definido
+      if (typeof p.stockMin === 'number') {
+        const stockBodegaBajo = p.bodega <= p.stockMin;
+        const stockBarraBajo = p.barra <= p.stockMin;
 
-      // Si la bodega tiene stock, se evalúa la bodega.
-      if (stockToCheck > 0) {
-        showAlert = p.stockMin > 0 && stockToCheck <= p.stockMin;
-      } 
-      // Si la bodega está en 0, pero la barra tiene stock, se evalúa la barra.
-      else if (p.barra > 0) {
-        stockToCheck = p.barra;
-        location = 'Barra';
-        showAlert = p.stockMin > 0 && stockToCheck <= p.stockMin;
+        // Solo mostrar una alerta si AMBAS ubicaciones tienen stock bajo.
+        if (stockBodegaBajo && stockBarraBajo) {
+          allAlerts.push({ 
+            id: p.id, // Usamos el ID original del producto, ya que es una sola alerta por producto
+            nombre: p.nombre, 
+            ubicacion: 'Ambas', // Indicamos que el problema está en ambas ubicaciones
+            stockActual: p.total, // Mostramos el stock total que es el más relevante
+            stockMin: p.stockMin, 
+          });
+        }
       }
-
-      return showAlert ? { ...p, stockActual: stockToCheck, ubicacion: location } : null;
-    }).filter(Boolean); // Filtramos los nulos para quedarnos solo con las alertas reales.
-    setAlerts(generatedAlerts);
+    });
+    setAlerts(allAlerts);
   }, [inventory]);
 
   // Solo muestra "Cargando..." si el loading principal está activo y aún no hay inventario.
