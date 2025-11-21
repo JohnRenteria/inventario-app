@@ -16,6 +16,9 @@ const AddProductForm = () => {
     stockMax: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  // Estado para controlar la visibilidad de las sugerencias (ejemplo)
+  // Deberías implementar una lógica similar en tu MovementForm
+  const [suggestionsVisible, setSuggestionsVisible] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,6 +26,13 @@ const AddProductForm = () => {
       ...prevState,
       [name]: value,
     }));
+
+    // Ejemplo: Si el campo es 'nombre', asumimos que se muestran sugerencias.
+    if (name === 'nombre' && value.length > 0) {
+      setSuggestionsVisible(true);
+    } else {
+      setSuggestionsVisible(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -57,6 +67,7 @@ const AddProductForm = () => {
       });
       // Reset form
       setFormData({ nombre: '', bodega: '', barra: '', stockMin: '', stockMax: '' });
+      setSuggestionsVisible(false); // Ocultar sugerencias al enviar
 
     } catch (err) {
       showModal({ title: 'Error', message: 'Ocurrió un error al agregar el producto.' });
@@ -68,7 +79,7 @@ const AddProductForm = () => {
 
   return (
     <>
-    <div className="add-product-form-container">
+    <div className={`add-product-form-container ${suggestionsVisible ? 'suggestions-visible' : ''}`}>
       <h3>Agregar Nuevo Producto</h3>
       <div className="form-scroll-container">
         <form onSubmit={handleSubmit} className="add-product-form">

@@ -95,11 +95,11 @@ const MovementForm = ({ disabled }) => {
           break;
         case 'Bodega a Barra':
           if (selectedProduct.bodega < qty) throw new Error('No hay suficiente stock en bodega.');
+          // Funciona como una 'Salida de Bodega' según la aclaración.
           updates.bodega = increment(-qty);
-          // Se registra como una salida de la bodega, pero el stock de la barra no cambia.
-          // updates.salida = increment(qty); // No se registra como salida general
-          // updates.total = increment(-qty); // El total no cambia, es un traspaso
-          updates.barra = increment(qty);
+          updates.salida = increment(qty);
+          updates.total = increment(-qty);
+          isSalida = true; // Se marca como salida para los reportes.
           break;
         case 'Salida de Bodega':
           if (selectedProduct.bodega < qty) throw new Error('No hay suficiente stock en bodega.');
@@ -164,14 +164,14 @@ const MovementForm = ({ disabled }) => {
   };
 
   return (
-    <div className="movement-form-container">
+    <div className={`movement-form-container ${suggestions.length > 0 ? 'suggestions-visible' : ''}`}>
       {disabled && (
         <div className="form-overlay">
           <p>El registro de movimientos está deshabilitado hasta la próxima revisión.</p>
         </div>
       )}
       <h3>Registrar Movimiento</h3>
-      <div className="form-scroll-container">
+      <div className={`form-scroll-container ${suggestions.length > 0 ? 'suggestions-visible' : ''}`}>
         <form onSubmit={handleSubmit} className="movement-form">
           <div className="autocomplete-container">
             <input
