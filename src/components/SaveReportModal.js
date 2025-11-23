@@ -21,8 +21,10 @@ const SaveReportModal = ({ isOpen, onClose, inventory, user }) => {
 
     try {
       // Corregimos el manejo de la fecha para evitar problemas de zona horaria
-      const [year, month, day] = reportDate.split('-').map(Number);
-      const selectedDateUTC = new Date(Date.UTC(year, month - 1, day));
+      const [year, month, day] = reportDate.split('-').map(num => parseInt(num, 10));
+      // Creamos la fecha en UTC al mediodía para evitar el desfase por la zona horaria del cliente.
+      // Esto asegura que la fecha siempre caiga en el día correcto, sin importar la zona horaria.
+      const selectedDateUTC = new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
 
       // 1. Check if a report for this date already exists
       const startOfDay = new Date(Date.UTC(year, month - 1, day, 0, 0, 0, 0));

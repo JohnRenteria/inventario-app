@@ -3,33 +3,58 @@ import { useAuth } from '../context/AuthContext';
 import './StockAlerts.css';
 
 const StockAlerts = () => {
-  const { inventory, loading } = useAuth(); // Obtenemos los datos del contexto
+  const { inventory, loading } = useAuth();
   const [alerts, setAlerts] = useState([]);
 
   useEffect(() => {
-    const allAlerts = [];
-    inventory.forEach(p => {
-      // Solo procesar si el stock mínimo está definido
-      if (typeof p.stockMin === 'number') {
-        const stockBodegaBajo = p.bodega <= p.stockMin;
-        const stockBarraBajo = p.barra <= p.stockMin;
+    const processed = new Set();
+    const result = [];
 
-        // Solo mostrar una alerta si AMBAS ubicaciones tienen stock bajo.
-        if (stockBodegaBajo && stockBarraBajo) {
-          allAlerts.push({ 
-            id: p.id, // Usamos el ID original del producto, ya que es una sola alerta por producto
-            nombre: p.nombre, 
-            ubicacion: 'Ambas', // Indicamos que el problema está en ambas ubicaciones
-            stockActual: p.total, // Mostramos el stock total que es el más relevante
-            stockMin: p.stockMin, 
+    inventory.forEach(p => {
+      if (typeof p.stockMin !== 'number') return;
+
+      const bodega = p.bodega ?? 0;
+      const barra = p.barra ?? 0;
+      const min = p.stockMin;
+
+      const addAlert = (ubicacion, stockActual) => {
+        if (!processed.has(p.id)) {
+          result.push({
+            id: p.id,
+            nombre: p.nombre,
+            ubicacion,
+            stockActual,
+            stockMin: min
           });
+          processed.add(p.id);
         }
+      };
+
+      // 👉 REGLA 3: Si bodega = 0 y barra = 0 → ubicación "Ambas"
+      if (bodega === 0 && barra === 0) {
+        addAlert('Ambas', 0);
+        return;
       }
+
+      // 👉 REGLA 2: Si bodega = 0 y barra ≤ stockMin → ubicación "Barra"
+      if (bodega === 0 && barra <= min) {
+        addAlert('Barra', barra);
+        return;
+      }
+
+      // 👉 REGLA 1: Si bodega ≤ stockMin Y barra también está por debajo/igual del stockMin
+      // SOLO en ese caso se alerta por bodega.
+      if (bodega <= min && barra <= min) {
+        addAlert('Bodega', bodega);
+        return;
+      }
+
+      // ⚠ Si bodega está baja pero barra está arriba del mínimo → NO se genera alerta
     });
-    setAlerts(allAlerts);
+
+    setAlerts(result);
   }, [inventory]);
 
-  // Solo muestra "Cargando..." si el loading principal está activo y aún no hay inventario.
   if (loading && inventory.length === 0) {
     return <p>Cargando alertas de stock...</p>;
   }
@@ -39,6 +64,7 @@ const StockAlerts = () => {
       <header className="stock-alerts-header">
         <h4>Alertas de Stock</h4>
       </header>
+
       {alerts.length === 0 ? (
         <p style={{ padding: '1rem 1.5rem' }}>No hay alertas de stock en este momento.</p>
       ) : (
@@ -55,14 +81,14 @@ const StockAlerts = () => {
             </thead>
             <tbody>
               {alerts.map(item => (
-                  <tr key={item.id} className="status-low">
-                    <td>{item.nombre}</td>
-                    <td>{item.ubicacion}</td>
-                    <td>{item.stockActual}</td>
-                    <td>{item.stockMin}</td>
-                    <td>Bajo Stock</td>
-                  </tr>
-                ))}
+                <tr key={item.id} className="status-low">
+                  <td>{item.nombre}</td>
+                  <td>{item.ubicacion}</td>
+                  <td>{item.stockActual}</td>
+                  <td>{item.stockMin}</td>
+                  <td>Bajo Stock</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
