@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/inventario-app/static/css/main.4fe67a7f.css",
-    "main.js": "/inventario-app/static/js/main.fb80b823.js",
+    "main.js": "/inventario-app/static/js/main.ba588c07.js",
     "static/js/977.98f7f29d.chunk.js": "/inventario-app/static/js/977.98f7f29d.chunk.js",
     "static/js/455.937fcf4b.chunk.js": "/inventario-app/static/js/455.937fcf4b.chunk.js",
     "static/js/453.389d07c2.chunk.js": "/inventario-app/static/js/453.389d07c2.chunk.js",
     "index.html": "/inventario-app/index.html",
     "main.4fe67a7f.css.map": "/inventario-app/static/css/main.4fe67a7f.css.map",
-    "main.fb80b823.js.map": "/inventario-app/static/js/main.fb80b823.js.map",
+    "main.ba588c07.js.map": "/inventario-app/static/js/main.ba588c07.js.map",
     "977.98f7f29d.chunk.js.map": "/inventario-app/static/js/977.98f7f29d.chunk.js.map",
     "455.937fcf4b.chunk.js.map": "/inventario-app/static/js/455.937fcf4b.chunk.js.map",
     "453.389d07c2.chunk.js.map": "/inventario-app/static/js/453.389d07c2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.4fe67a7f.css",
-    "static/js/main.fb80b823.js"
+    "static/js/main.ba588c07.js"
   ]
 }
