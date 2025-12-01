@@ -95,11 +95,20 @@ const MovementForm = ({ disabled }) => {
           break;
         case 'Bodega a Barra':
           if (selectedProduct.bodega < qty) throw new Error('No hay suficiente stock en bodega.');
-          // Funciona como una 'Salida de Bodega' según la aclaración.
+          // Se toma el stock actual de la barra y se le suma la cantidad transferida.
+          const currentBarStock = selectedProduct.barra || 0;
+          const newBarStock = currentBarStock + qty;
           updates.bodega = increment(-qty);
-          updates.salida = increment(qty);
-          updates.total = increment(-qty);
-          isSalida = true; // Se marca como salida para los reportes.
+          updates.barra = newBarStock; // Se actualiza la barra con el nuevo total calculado.
+          // No es una salida final (venta), pero sí queremos registrar el movimiento en el historial.
+          await addDoc(collection(db, 'inventory_movements'), {
+            productId: selectedProduct.id,
+            productName: selectedProduct.nombre,
+            type: movementType,
+            quantity: qty,
+            responsable,
+            createdAt: serverTimestamp(),
+          });
           break;
         case 'Salida de Bodega':
           if (selectedProduct.bodega < qty) throw new Error('No hay suficiente stock en bodega.');
@@ -133,6 +142,7 @@ const MovementForm = ({ disabled }) => {
           productName: selectedProduct.nombre,
           type: movementType,
           quantity: qty,
+          responsable,
           createdAt: serverTimestamp(),
         });
 
